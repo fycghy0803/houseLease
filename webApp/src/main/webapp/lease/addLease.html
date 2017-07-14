@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>增加出租信息</title>
+
+    <link href="../css/bootstrap3.css" rel="stylesheet">
+    <link href="../css/bootstrapValidator.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h1 class="panel-title">
+      增加出租信息
+    </h1>
+  </div>
+  <div class="panel-body">
+     <div class="panel panel-default">
+         <div class="panel-heading">
+            <h3>租户资料</h3>
+         </div>
+         <div class="panel-body">
+           <form id="leaseInfoForm" data-toggle="validator" role="form" class="required-validate">
+             <input type="hidden" name="hpId" id="hpId"/>
+
+            <div class="row">
+
+              <div class="col-sm-2">
+                <div class="form-group">
+                <label>租户电话:</label>
+                <input type="tel" class="form-control" name="houseUserDto.userTel" id="userTel" required/>
+                </div>
+              </div>
+                <div class="col-sm-2">
+                    <label>租户姓名:</label><input type="text" class="form-control" name="houseUserDto.userName" required>
+                </div>
+
+                <div class="col-sm-2">
+                   <label>租户身份证:</label><input type="text" class="form-control" name="houseUserDto.identNumber" required>
+                </div>
+              <div class="col-sm-2">
+                <label>合同开始时间:</label><input type="date" class="form-control" name="startDate" required>
+              </div>
+              <div class="col-sm-2">
+                <label>合同结束时间:</label><input type="date" class="form-control" name="endDate" required>
+              </div>
+              <div class="col-sm-2">
+                <label>租金(月):</label><input type="number" class="form-control" name="rent" required>
+              </div>
+            </div>
+             <div class="row">
+               <div class="col-sm-2">
+                 <label>收租方式:</label><input type="text" class="form-control" placeholder="押1付3" name="payType" value="押1付3" required>
+               </div>
+               <div class="col-sm-2">
+                 <label>付款周期(月):</label><input type="number" class="form-control" value="3" name="payTerm" required>
+               </div>
+               <div class="col-sm-2">
+                 <label>押金:</label><input type="number" class="form-control" name="deposit" required>
+               </div>
+               <div class="col-sm-2">
+                 <label>所租房间:</label><input type="text" class="form-control" placeholder="多房间以,分隔(如:主卧,次卧)" name="hireRoomArea" required>
+               </div>
+
+               <div class="col-sm-2">
+                 <label>租房间数:</label><input type="number" class="form-control" value="1" name="hireCount" id="hireCount" required>
+               </div>
+             </div>
+
+             <div class="row">
+               <div class="col-sm-2">
+                 <label>下次收租日期:</label><input type="date" class="form-control" name="nextPayDate" id="nextPayDate" required>
+               </div>
+               <div class="col-sm-2">
+                 <label>前置提醒(天):</label><input type="number" class="form-control" value="3" name="prewarnDays" required>
+               </div>
+
+             </div>
+
+           </form>
+         </div>
+
+       <div class="panel-heading">
+         <h3>房屋资料</h3>
+       </div>
+       <div class="panel-body" id="placeInfo">
+         <form>
+           <div class="row">
+             <div class="col-sm-2">
+               <label>小区名称:</label><input type="text" class="form-control" value="${houseBuildingDto.buildingName}" readonly>
+             </div>
+             <div class="col-sm-2">
+               <label>小区地址:</label><input type="text" class="form-control" value="${houseBuildingDto.buildingAddress}" readonly>
+             </div>
+             <div class="col-sm-2">
+               <label>房间地址:</label> <input type="text" class="form-control" value="${place}" readonly>
+             </div>
+             <div class="col-sm-2">
+               <label>房间号码:</label> <input type="text" class="form-control" value="${roomNumber}" readonly>
+             </div>
+             <div class="col-sm-2">
+               <label>房间数:</label>  <input type="text" class="form-control" value="${roomCount}" readonly id="roomCount">
+             </div>
+             <div class="col-sm-2">
+               <label>已租房间:</label> <input type="text" class="form-control" value="${letCount}" readonly id="letCount">
+             </div>
+           </div>
+         </form>
+       </div>
+
+       <div class="panel-footer">
+           <button class="btn-primary btn-sm btn" onclick="saveLeaseInfo();">保存</button>
+       </div>
+     </div>
+  </div>
+</div>
+</body>
+
+<script src="../js/jquery.min.1.12.4.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrapValidator.min.js"></script>
+<script src="../js/public.js?version=1.0.3"></script>
+<script src="../js/language/zh_CN.js?version=1.0.2"></script>
+<script src="../js/addLease.js?version=1.0.4" ></script>
+</html>

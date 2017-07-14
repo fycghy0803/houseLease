@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>增加房屋</title>
+    <link href="../css/bootstrap3.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h1 class="panel-title">
+      增加房屋
+    </h1>
+  </div>
+  <div class="panel-body">
+     <div class="panel panel-default">
+         <div class="panel-heading">
+            <h3>业主资料</h3>
+         </div>
+       <form id="addPlaceForm" role="form" data-toggle="validator">
+         <div class="panel-body">
+
+            <div class="row">
+              <div class="col-sm-2">
+                <div class="form-group">
+                <label>业主电话:</label><input type="tel" class="form-control" name="houseUserDto.userTel" required>
+                </div>
+              </div>
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <label>业主姓名:</label><input type="text" class="form-control" name="houseUserDto.userName" required>
+                  </div>
+                </div>
+
+                <div class="col-sm-2">
+                  <div class="form-group">
+                   <label>业主身份证:</label><input type="text" class="form-control" name="houseUserDto.identNumber" required>
+                  </div>
+                </div>
+              <div class="col-sm-2">
+                <div class="form-group">
+                <label>合同开始时间:</label><input type="date" class="form-control" name="startDate" required>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group">
+                <label>合同结束时间:</label><input type="date" class="form-control" name="endDate" required>
+                </div>
+              </div>
+            </div>
+             <div class="row">
+               <div class="col-sm-2">
+                 <div class="form-group">
+                 <label>租金(月):</label><input type="number" class="form-control" name="rent" required>
+                 </div>
+               </div>
+               <div class="col-sm-2">
+                 <div class="form-group">
+                 <label>付款方式:</label><input type="text" class="form-control" value="押1付3" name="houseHiredInfoDto.payType" required>
+                 </div>
+               </div>
+               <div class="col-sm-2">
+                 <div class="form-group">
+                 <label>付款周期(月):</label><input type="number" class="form-control" value="3" name="houseHiredInfoDto.payTerm" required>
+                 </div>
+               </div>
+
+               <div class="col-sm-2">
+                 <div class="form-group">
+                 <label>押金:</label><input type="number" class="form-control" name="deposit" required>
+                 </div>
+               </div>
+             </div>
+
+         </div>
+
+       <div class="panel-heading">
+         <h3>房屋资料</h3>
+       </div>
+       <div class="panel-body">
+           <div class="row">
+             <div class="col-sm-2">
+               <div class="form-group">
+               <label>小区名称:</label><input type="text" class="form-control" name="houseBuildingDto.buildingName" required>
+               </div>
+             </div>
+             <div class="col-sm-2">
+               <div class="form-group">
+               <label>小区地址:</label><input type="text" class="form-control" name="houseBuildingDto.buildingAddress" required>
+               </div>
+             </div>
+             <div class="col-sm-2">
+               <div class="form-group">
+               <label>房间地址:</label><input type="text" class="form-control" placeholder="1号楼1单元" name="place" required>
+               </div>
+             </div>
+             <div class="col-sm-2">
+               <div class="form-group">
+               <label>房间号码:</label><input type="text" class="form-control" placeholder="2层110号" name="roomNumber" required>
+               </div>
+             </div>
+
+             <div class="col-sm-2">
+               <label>房屋面积(平):</label><input type="number" class="form-control" name="areas">
+             </div>
+             <div class="col-sm-2">
+               <label>房屋结构:</label><input type="text" class="form-control" placeholder="3室2厅1卫" name="placeType">
+             </div>
+           </div>
+           <div class="row">
+             <div class="col-sm-2">
+               <div class="form-group">
+               <label>房间数量:</label><input type="number" class="form-control" name="roomCount" required>
+               </div>
+             </div>
+             <div class="col-sm-2">
+               <div class="form-group">
+               <label>空置期(天):</label><input type="number" class="form-control" name="freeTerm" required>
+               </div>
+             </div>
+             <div class="col-sm-2">
+               <div class="form-group">
+               <label>下次付租日期:</label><input type="date" class="form-control" name="houseHiredInfoDto.nextPayDate" required>
+               </div>
+             </div>
+             <div class="col-sm-2">
+               <div class="form-group">
+               <label>前置提醒(天):</label><input type="number" class="form-control" placeholder="3" value="3" name="houseHiredInfoDto.prewarnDays" required>
+               </div>
+             </div>
+
+             <div class="col-sm-2">
+               <label>装修情况:</label><input type="text" class="form-control" name="decoLevel">
+             </div>
+             <div class="col-sm-2">
+               <label>物业费(月):</label><input type="number" class="form-control" name="proportion">
+             </div>
+           </div>
+             <div class="row">
+               <div class="col-sm-2">
+                 <label>电号:</label><input type="text" class="form-control" name="powerNumber">
+               </div>
+               <div class="col-sm-2">
+                 <label>水号:</label><input type="text" class="form-control" name="waterNumber">
+               </div>
+               <div class="col-sm-2">
+                 <label>天燃气号:</label><input type="text" class="form-control" name="gasNumber">
+               </div>
+               <div class="col-sm-2">
+                 <label>暖气号:</label><input type="text" class="form-control" name="warnNumber">
+               </div>
+               <div class="col-sm-2">
+                 <label>有线电视号:</label><input type="text" class="form-control" name="tvNumber">
+               </div>
+               <div class="col-sm-2">
+                 <label>宽带号:</label><input type="text" class="form-control" name="internetNumber">
+               </div>
+             </div>
+       </div>
+
+       <div class="panel-heading">
+         <h3>房屋配套</h3>
+       </div>
+       <div class="panel-body">
+         <div class="col-sm-1">
+           <label>冰箱:</label><input type="number" class="form-control" value="1" name="hasFridges">
+         </div>
+         <div class="col-sm-1">
+           <label>洗衣机:</label><input type="number" class="form-control" value="1" name="hasWashers">
+         </div>
+         <div class="col-sm-1">
+           <label>空调:</label><input type="number" class="form-control" value="1" name="hasAirs">
+         </div>
+         <div class="col-sm-1">
+           <label>电视:</label><input type="number" class="form-control" value="1" name="hasTvs">
+         </div>
+         <div class="col-sm-1">
+           <label>热水器:</label><input type="number" class="form-control" value="1" name="hasGas">
+         </div>
+         <div class="col-sm-1">
+           <label>暖气:</label><input type="number" class="form-control" value="1" name="hasHeating">
+         </div>
+         <div class="col-sm-1">
+           <label>房间钥匙:</label><input type="number" class="form-control" value="2" name="hasKeys">
+         </div>
+         <div class="col-sm-1">
+           <label>床:</label><input type="number" class="form-control" value="1" name="hasBeds">
+         </div>
+         <div class="col-sm-1">
+           <label>沙发:</label><input type="number" class="form-control" value="1" name="hasSofas">
+         </div>
+         <div class="col-sm-1">
+           <label>餐桌:</label><input type="number" class="form-control" value="1" name="hasTables">
+         </div>
+         <div class="col-sm-1">
+           <label>茶几:</label><input type="number" class="form-control" value="1" name="hasTeapoy">
+         </div>
+         <div class="row">
+           <div class="col-sm-6">
+            <label>其它配套:</label><input type="text" class="form-control" name="otherFacilities">
+           </div>
+         </div>
+       </div>
+       </form>
+       <div class="panel-footer">
+           <button class="btn-primary btn-sm btn" onclick="savePlaceInfo();">保存</button>
+       </div>
+     </div>
+
+  </div>
+</div>
+
+</body>
+
+<script src="../js/jquery.min.1.12.4.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrapValidator.min.js"></script>
+<script src="../js/language/zh_CN.js"></script>
+<script src="../js/public.js?version=1.0.3"></script>
+<script src="../js/addPlace.js"></script>
+</html>

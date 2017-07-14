@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hysoft.houselease.dao.UserDao">
+  <resultMap id="userInfoResult" type="com.hysoft.houselease.dto.HouseUserDto">
+    <result column="user_name" property="userName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    <result column="user_tel" property="userTel" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    <result column="user_address" property="userAddress" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    <result column="ident_number" property="identNumber" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    <result column="ident_photos" property="identPhotos" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    <result column="status" property="status" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    <result column="user_type" property="userType" jdbcType="DECIMAL" javaType="java.lang.Integer"/>
+    <result column="ho_id" property="hoId" jdbcType="DECIMAL" javaType="java.lang.Integer"/>
+  </resultMap>
+
+  <sql id="columns">
+    user_name,user_tel,user_address,ident_number,ident_photos,status,user_type,ho_id
+  </sql>
+
+  <insert id="insertUser" parameterType="com.hysoft.houselease.dto.HouseUserDto"
+          useGeneratedKeys="true" keyProperty="hoId" keyColumn="ho_id">
+       insert into house_users(user_name,user_tel,user_address,ident_number,ident_photos,status,user_type)
+       VALUES (#{userName},#{userTel},#{userAddress},#{identNumber},#{identPhotos},#{status},#{userType})
+  </insert>
+
+  <update id="updateUserById" parameterType="com.hysoft.houselease.dto.HouseUserDto">
+      UPDATE house_users hu
+         set hu.user_name = #{user_name},user_tel = #{userTel},user_address = #{userAddress},
+             hu.ident_number = #{identNumber},status = #{status},user_type = #{userType}
+      where ho_id = #{hoId}
+  </update>
+
+  <select id="getUserList" parameterType="com.hysoft.houselease.dto.HouseUserDto" resultMap="userInfoResult">
+    select <include refid="columns" />
+    from house_users
+     limit #{pageIndex},#{pageSize}
+  </select>
+
+  <select id="queryUser" parameterType="java.lang.String" resultMap="userInfoResult">
+     select  <include refid="columns" />
+    from house_users u
+   where u.user_name + u.user_tel + user_address + ident_number like concat('%',#{searchStr},'%');
+  </select>
+  <select id="getUserInfoByTel" parameterType="com.hysoft.houselease.dto.HouseUserDto" resultMap="userInfoResult">
+    select  <include refid="columns" />
+      from house_users hu
+     where hu.user_tel = #{userTel}
+  </select>
+</mapper>

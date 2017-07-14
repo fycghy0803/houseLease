@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hysoft.houselease.dao.PlaceDao" >
+  <resultMap id="BaseResultMap" type="com.hysoft.houselease.dto.HousePlaceDto" >
+    <id column="hp_id" property="hpId" jdbcType="INTEGER" />
+    <result column="hp_code" property="hpCode" jdbcType="VARCHAR" />
+    <result column="hb_id" property="hbId" jdbcType="INTEGER" />
+    <result column="ho_id" property="hoId" jdbcType="INTEGER" />
+    <result column="free_term" property="freeTerm" jdbcType="INTEGER" />
+    <result column="start_date" property="startDate" jdbcType="TIMESTAMP" />
+    <result column="end_date" property="endDate" jdbcType="TIMESTAMP" />
+    <result column="building_number" property="buildingNumber" jdbcType="VARCHAR" />
+    <result column="unit_number" property="unitNumber" jdbcType="VARCHAR" />
+    <result column="floor_number" property="floorNumber" jdbcType="VARCHAR" />
+    <result column="room_number" property="roomNumber" jdbcType="VARCHAR" />
+    <result column="room_count" property="roomCount" jdbcType="INTEGER" />
+    <result column="place_type" property="placeType" jdbcType="VARCHAR" />
+    <result column="has_heating" property="hasHeating" jdbcType="BIT" />
+    <result column="has_gas" property="hasGas" jdbcType="BIT" />
+    <result column="deco_level" property="decoLevel" jdbcType="VARCHAR" />
+    <result column="has_internet" property="hasInternet" jdbcType="BIT" />
+    <result column="has_beds" property="hasBeds" jdbcType="INTEGER" />
+    <result column="has_hotwater" property="hasHotwater" jdbcType="BIT" />
+    <result column="has_tvs" property="hasTvs" jdbcType="INTEGER" />
+    <result column="has_airs" property="hasAirs" jdbcType="INTEGER" />
+    <result column="has_washers" property="hasWashers" jdbcType="INTEGER" />
+    <result column="has_fridges" property="hasFridges" jdbcType="INTEGER" />
+    <result column="proportion" property="proportion" jdbcType="INTEGER" />
+    <result column="rental" property="rental" jdbcType="DECIMAL" />
+    <result column="rent_pay_type" property="rentPayType" jdbcType="VARCHAR" />
+    <result column="rent_pay_term" property="rentPayTerm" jdbcType="INTEGER" />
+    <result column="deposit" property="deposit" jdbcType="DECIMAL" />
+    <result column="last_rent_pay_date" property="lastRentPayDate" jdbcType="TIMESTAMP" />
+    <result column="property_fee" property="propertyFee" jdbcType="DECIMAL" />
+    <result column="property_pay_term" property="propertyPayTerm" jdbcType="INTEGER" />
+    <result column="last_prop_pay_date" property="lastPropPayDate" jdbcType="TIMESTAMP" />
+    <result column="water_rate" property="waterRate" jdbcType="DECIMAL" />
+    <result column="water_rate_term" property="waterRateTerm" jdbcType="INTEGER" />
+    <result column="last_water_pay_date" property="lastWaterPayDate" jdbcType="TIMESTAMP" />
+    <result column="power_rate" property="powerRate" jdbcType="DECIMAL" />
+    <result column="power_rate_term" property="powerRateTerm" jdbcType="INTEGER" />
+    <result column="last_power_pay_date" property="lastPowerPayDate" jdbcType="TIMESTAMP" />
+    <result column="gas_rate" property="gasRate" jdbcType="DECIMAL" />
+    <result column="gas_rate_term" property="gasRateTerm" jdbcType="INTEGER" />
+    <result column="last_gas_pay_date" property="lastGasPayDate" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="let_count" property="letCount" jdbcType="INTEGER" />
+    <result column="other_facilities" property="otherFacilities" jdbcType="VARCHAR" />
+    <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="key_words" property="keyWords" jdbcType="VARCHAR" />
+    <result column="place" property="place" jdbcType="VARCHAR"/>
+    <result column="hire_room_area" property="hireRoomArea" jdbcType="VARCHAR" />
+    <result column="areas" property="areas" jdbcType="DECIMAL" />
+    <result column="rent" property="rent" jdbcType="DECIMAL" />
+
+    <result column="power_number" property="powerNumber" jdbcType="VARCHAR"/>
+    <result column="water_number" property="waterNumber" jdbcType="VARCHAR"/>
+    <result column="gas_number" property="gasNumber" jdbcType="VARCHAR"/>
+    <result column="warn_number" property="warnNumber" jdbcType="VARCHAR"/>
+    <result column="tv_number" property="tvNumber" jdbcType="VARCHAR"/>
+    <result column="internet_number" property="internetNumber" jdbcType="VARCHAR"/>
+
+    <association property="houseBuildingDto" javaType="com.hysoft.houselease.dto.HouseBuildingDto">
+      <result column="building_name" property="buildingName" jdbcType="VARCHAR"/>
+      <result column="building_address" property="buildingAddress" jdbcType="VARCHAR" />
+    </association>
+    <association property="houseUserDto" javaType="com.hysoft.houselease.dto.HouseUserDto">
+      <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+      <result property="userTel" column="user_tel" jdbcType="VARCHAR"/>
+      <result property="identNumber" column="ident_number" jdbcType="VARCHAR"/>
+    </association>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    hp.hp_id,  hp.hp_code, hp.hb_id, hp.ho_id, hp.free_term, hp.start_date, hp.end_date,
+    hp.building_number, hp.unit_number,
+    hp.floor_number, hp.room_number, hp.room_count, hp.place_type, hp.has_heating, hp.has_gas,
+    hp.deco_level,
+    hp.has_internet, hp.has_beds, hp.has_hotwater, hp.has_tvs, hp.has_airs, hp.has_washers, hp.has_fridges,
+    hp.proportion, hp.rental, hp.rent_pay_type, hp.rent_pay_term, hp.deposit, hp.last_rent_pay_date, hp.property_fee,
+    hp.property_pay_term, hp.last_prop_pay_date, hp.water_rate, hp.water_rate_term, hp.last_water_pay_date,
+    hp.power_rate, hp.power_rate_term, hp.last_power_pay_date, hp.gas_rate, hp.gas_rate_term, hp.last_gas_pay_date,
+    hp.status, hp.let_count, hp.other_facilities, hp.created_date, hp.created_by,hp.key_words,hp.hire_room_area,hp.areas,hp.rent,
+    place,
+    hb.building_name,hb.building_address,
+    hu.user_name,hu.user_tel,hu.ident_number,
+    power_number, water_number,gas_number,  warn_number,tv_number,internet_number
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from house_places hp,
+         house_buildings hb,
+         house_users hu
+    where hp_id = #{hpId,jdbcType=INTEGER}
+      and hb.hb_id = hp.hb_id
+      and hu.ho_id = hp.ho_id
+  </select>
+
+  <select id="getToLeaseList" resultMap="BaseResultMap" parameterType="com.hysoft.houselease.dto.HousePlaceDto">
+    select <include refid="Base_Column_List" />
+    from house_places hp,
+    house_buildings hb,
+    house_users hu
+    where  hb.hb_id = hp.hb_id
+    <if test='showAll != "Y"'>
+     <![CDATA[
+      and hp.room_count > hp.let_count
+     ]]>
+    </if>
+    <if test="status != null">
+      and hp.status = #{status,jdbcType=VARCHAR}
+    </if>
+      and hu.ho_id = hp.ho_id
+    <if test="keyWords != null">
+      and hp.key_words like concat('%',#{keyWords},'%')
+    </if>
+  </select>
+
+  <select id="getPlaceList" resultMap="BaseResultMap" parameterType="com.hysoft.houselease.dto.HousePlaceDto">
+    SELECT <include refid="Base_Column_List" />
+    from house_places hp,
+         house_buildings hb
+    where hb.hb_id = hp.hb_id
+    limit #{pageIndex},#{pageSize}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from house_places
+    where hp_id = #{hpId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertPlace" parameterType="com.hysoft.houselease.dto.HousePlaceDto" useGeneratedKeys="true" keyProperty="hpId" keyColumn="hp_id">
+    insert into house_places (hp_id, hp_code, hb_id,
+      ho_id, free_term, start_date,
+      end_date, building_number, unit_number,
+      floor_number, room_number, room_count,
+      place_type, has_heating, has_gas,
+      deco_level, has_internet, has_beds,
+      has_hotwater, has_tvs, has_airs,
+      has_washers, has_fridges, proportion,
+      rental, rent_pay_type, rent_pay_term,
+      deposit, last_rent_pay_date, property_fee,
+      property_pay_term, last_prop_pay_date, water_rate,
+      water_rate_term, last_water_pay_date, power_rate,
+      power_rate_term, last_power_pay_date, gas_rate,
+      gas_rate_term, last_gas_pay_date, status,
+      let_count, other_facilities, created_date,
+      created_by,key_words,has_keys,has_sofas,has_teapoy,has_tables,
+      power_number,water_number, gas_number, warn_number,tv_number,internet_number,rent,place,areas)
+    values (#{hpId,jdbcType=INTEGER}, #{hpCode,jdbcType=VARCHAR}, #{hbId,jdbcType=INTEGER},
+      #{hoId,jdbcType=INTEGER}, #{freeTerm,jdbcType=INTEGER}, #{startDate,jdbcType=TIMESTAMP},
+      #{endDate,jdbcType=TIMESTAMP}, #{buildingNumber,jdbcType=VARCHAR}, #{unitNumber,jdbcType=VARCHAR},
+      #{floorNumber,jdbcType=VARCHAR}, #{roomNumber,jdbcType=VARCHAR}, #{roomCount,jdbcType=INTEGER},
+      #{placeType,jdbcType=VARCHAR}, #{hasHeating,jdbcType=BIT}, #{hasGas,jdbcType=BIT},
+      #{decoLevel,jdbcType=VARCHAR}, #{hasInternet,jdbcType=BIT}, #{hasBeds,jdbcType=INTEGER},
+      #{hasHotwater,jdbcType=BIT}, #{hasTvs,jdbcType=INTEGER}, #{hasAirs,jdbcType=INTEGER},
+      #{hasWashers,jdbcType=INTEGER}, #{hasFridges,jdbcType=INTEGER}, #{proportion,jdbcType=INTEGER},
+      #{rental,jdbcType=DECIMAL}, #{rentPayType,jdbcType=VARCHAR}, #{rentPayTerm,jdbcType=INTEGER},
+      #{deposit,jdbcType=DECIMAL}, #{lastRentPayDate,jdbcType=TIMESTAMP}, #{propertyFee,jdbcType=DECIMAL},
+      #{propertyPayTerm,jdbcType=INTEGER}, #{lastPropPayDate,jdbcType=TIMESTAMP}, #{waterRate,jdbcType=DECIMAL},
+      #{waterRateTerm,jdbcType=INTEGER}, #{lastWaterPayDate,jdbcType=TIMESTAMP}, #{powerRate,jdbcType=DECIMAL},
+      #{powerRateTerm,jdbcType=INTEGER}, #{lastPowerPayDate,jdbcType=TIMESTAMP}, #{gasRate,jdbcType=DECIMAL},
+      #{gasRateTerm,jdbcType=INTEGER}, #{lastGasPayDate,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR},
+      #{letCount,jdbcType=INTEGER}, #{otherFacilities,jdbcType=VARCHAR}, #{createdDate,jdbcType=TIMESTAMP},
+      #{createdBy,jdbcType=INTEGER},#{keyWords,jdbcType=VARCHAR},#{hasKeys,jdbcType=INTEGER},#{hasSofas,jdbcType=INTEGER},#{hasTeapoy,jdbcType=INTEGER},#{hasTables,jdbcType=INTEGER},
+      #{powerNumber,jdbcType=VARCHAR},#{waterNumber,jdbcType=VARCHAR},
+      #{gasNumber,jdbcType=VARCHAR},#{warnNumber,jdbcType=VARCHAR},
+      #{tvNumber,jdbcType=VARCHAR},#{internetNumber,jdbcType=VARCHAR},#{rent,jdbcType=INTEGER},#{place,jdbcType=VARCHAR},#{areas,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hysoft.houselease.dto.HousePlaceDto" >
+    insert into house_places
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="hpId != null" >
+        hp_id,
+      </if>
+      <if test="hpCode != null" >
+        hp_code,
+      </if>
+      <if test="hbId != null" >
+        hb_id,
+      </if>
+      <if test="hoId != null" >
+        ho_id,
+      </if>
+      <if test="freeTerm != null" >
+        free_term,
+      </if>
+      <if test="startDate != null" >
+        start_date,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="buildingNumber != null" >
+        building_number,
+      </if>
+      <if test="unitNumber != null" >
+        unit_number,
+      </if>
+      <if test="floorNumber != null" >
+        floor_number,
+      </if>
+      <if test="roomNumber != null" >
+        room_number,
+      </if>
+      <if test="roomCount != null" >
+        room_count,
+      </if>
+      <if test="placeType != null" >
+        place_type,
+      </if>
+      <if test="hasHeating != null" >
+        has_heating,
+      </if>
+      <if test="hasGas != null" >
+        has_gas,
+      </if>
+      <if test="decoLevel != null" >
+        deco_level,
+      </if>
+      <if test="hasInternet != null" >
+        has_internet,
+      </if>
+      <if test="hasBeds != null" >
+        has_beds,
+      </if>
+      <if test="hasHotwater != null" >
+        has_hotwater,
+      </if>
+      <if test="hasTvs != null" >
+        has_tvs,
+      </if>
+      <if test="hasAirs != null" >
+        has_airs,
+      </if>
+      <if test="hasWashers != null" >
+        has_washers,
+      </if>
+      <if test="hasFridges != null" >
+        has_fridges,
+      </if>
+      <if test="proportion != null" >
+        proportion,
+      </if>
+      <if test="rental != null" >
+        rental,
+      </if>
+      <if test="rentPayType != null" >
+        rent_pay_type,
+      </if>
+      <if test="rentPayTerm != null" >
+        rent_pay_term,
+      </if>
+      <if test="deposit != null" >
+        deposit,
+      </if>
+      <if test="lastRentPayDate != null" >
+        last_rent_pay_date,
+      </if>
+      <if test="propertyFee != null" >
+        property_fee,
+      </if>
+      <if test="propertyPayTerm != null" >
+        property_pay_term,
+      </if>
+      <if test="lastPropPayDate != null" >
+        last_prop_pay_date,
+      </if>
+      <if test="waterRate != null" >
+        water_rate,
+      </if>
+      <if test="waterRateTerm != null" >
+        water_rate_term,
+      </if>
+      <if test="lastWaterPayDate != null" >
+        last_water_pay_date,
+      </if>
+      <if test="powerRate != null" >
+        power_rate,
+      </if>
+      <if test="powerRateTerm != null" >
+        power_rate_term,
+      </if>
+      <if test="lastPowerPayDate != null" >
+        last_power_pay_date,
+      </if>
+      <if test="gasRate != null" >
+        gas_rate,
+      </if>
+      <if test="gasRateTerm != null" >
+        gas_rate_term,
+      </if>
+      <if test="lastGasPayDate != null" >
+        last_gas_pay_date,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="letCount != null" >
+        let_count,
+      </if>
+      <if test="otherFacilities != null" >
+        other_facilities,
+      </if>
+      <if test="createdDate != null" >
+        created_date,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="hpId != null" >
+        #{hpId,jdbcType=INTEGER},
+      </if>
+      <if test="hpCode != null" >
+        #{hpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hbId != null" >
+        #{hbId,jdbcType=INTEGER},
+      </if>
+      <if test="hoId != null" >
+        #{hoId,jdbcType=INTEGER},
+      </if>
+      <if test="freeTerm != null" >
+        #{freeTerm,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="buildingNumber != null" >
+        #{buildingNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="unitNumber != null" >
+        #{unitNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="floorNumber != null" >
+        #{floorNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="roomNumber != null" >
+        #{roomNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="roomCount != null" >
+        #{roomCount,jdbcType=INTEGER},
+      </if>
+      <if test="placeType != null" >
+        #{placeType,jdbcType=VARCHAR},
+      </if>
+      <if test="hasHeating != null" >
+        #{hasHeating,jdbcType=BIT},
+      </if>
+      <if test="hasGas != null" >
+        #{hasGas,jdbcType=BIT},
+      </if>
+      <if test="decoLevel != null" >
+        #{decoLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="hasInternet != null" >
+        #{hasInternet,jdbcType=BIT},
+      </if>
+      <if test="hasBeds != null" >
+        #{hasBeds,jdbcType=INTEGER},
+      </if>
+      <if test="hasHotwater != null" >
+        #{hasHotwater,jdbcType=BIT},
+      </if>
+      <if test="hasTvs != null" >
+        #{hasTvs,jdbcType=INTEGER},
+      </if>
+      <if test="hasAirs != null" >
+        #{hasAirs,jdbcType=INTEGER},
+      </if>
+      <if test="hasWashers != null" >
+        #{hasWashers,jdbcType=INTEGER},
+      </if>
+      <if test="hasFridges != null" >
+        #{hasFridges,jdbcType=INTEGER},
+      </if>
+      <if test="proportion != null" >
+        #{proportion,jdbcType=INTEGER},
+      </if>
+      <if test="rental != null" >
+        #{rental,jdbcType=DECIMAL},
+      </if>
+      <if test="rentPayType != null" >
+        #{rentPayType,jdbcType=VARCHAR},
+      </if>
+      <if test="rentPayTerm != null" >
+        #{rentPayTerm,jdbcType=INTEGER},
+      </if>
+      <if test="deposit != null" >
+        #{deposit,jdbcType=DECIMAL},
+      </if>
+      <if test="lastRentPayDate != null" >
+        #{lastRentPayDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="propertyFee != null" >
+        #{propertyFee,jdbcType=DECIMAL},
+      </if>
+      <if test="propertyPayTerm != null" >
+        #{propertyPayTerm,jdbcType=INTEGER},
+      </if>
+      <if test="lastPropPayDate != null" >
+        #{lastPropPayDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="waterRate != null" >
+        #{waterRate,jdbcType=DECIMAL},
+      </if>
+      <if test="waterRateTerm != null" >
+        #{waterRateTerm,jdbcType=INTEGER},
+      </if>
+      <if test="lastWaterPayDate != null" >
+        #{lastWaterPayDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="powerRate != null" >
+        #{powerRate,jdbcType=DECIMAL},
+      </if>
+      <if test="powerRateTerm != null" >
+        #{powerRateTerm,jdbcType=INTEGER},
+      </if>
+      <if test="lastPowerPayDate != null" >
+        #{lastPowerPayDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gasRate != null" >
+        #{gasRate,jdbcType=DECIMAL},
+      </if>
+      <if test="gasRateTerm != null" >
+        #{gasRateTerm,jdbcType=INTEGER},
+      </if>
+      <if test="lastGasPayDate != null" >
+        #{lastGasPayDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="letCount != null" >
+        #{letCount,jdbcType=INTEGER},
+      </if>
+      <if test="otherFacilities != null" >
+        #{otherFacilities,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null" >
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updatePlace" parameterType="com.hysoft.houselease.dto.HousePlaceDto" >
+    update house_places
+    <set >
+      <if test="hpCode != null" >
+        hp_code = #{hpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hbId != null" >
+        hb_id = #{hbId,jdbcType=INTEGER},
+      </if>
+      <if test="hoId != null" >
+        ho_id = #{hoId,jdbcType=INTEGER},
+      </if>
+      <if test="freeTerm != null" >
+        free_term = #{freeTerm,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null" >
+        start_date = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="buildingNumber != null" >
+        building_number = #{buildingNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="unitNumber != null" >
+        unit_number = #{unitNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="floorNumber != null" >
+        floor_number = #{floorNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="roomNumber != null" >
+        room_number = #{roomNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="roomCount != null" >
+        room_count = #{roomCount,jdbcType=INTEGER},
+      </if>
+      <if test="placeType != null" >
+        place_type = #{placeType,jdbcType=VARCHAR},
+      </if>
+      <if test="hasHeating != null" >
+        has_heating = #{hasHeating,jdbcType=BIT},
+      </if>
+      <if test="hasGas != null" >
+        has_gas = #{hasGas,jdbcType=BIT},
+      </if>
+      <if test="decoLevel != null" >
+        deco_level = #{decoLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="hasInternet != null" >
+        has_internet = #{hasInternet,jdbcType=BIT},
+      </if>
+      <if test="hasBeds != null" >
+        has_beds = #{hasBeds,jdbcType=INTEGER},
+      </if>
+      <if test="hasHotwater != null" >
+        has_hotwater = #{hasHotwater,jdbcType=BIT},
+      </if>
+      <if test="hasTvs != null" >
+        has_tvs = #{hasTvs,jdbcType=INTEGER},
+      </if>
+      <if test="hasAirs != null" >
+        has_airs = #{hasAirs,jdbcType=INTEGER},
+      </if>
+      <if test="hasWashers != null" >
+        has_washers = #{hasWashers,jdbcType=INTEGER},
+      </if>
+      <if test="hasFridges != null" >
+        has_fridges = #{hasFridges,jdbcType=INTEGER},
+      </if>
+      <if test="proportion != null" >
+        proportion = #{proportion,jdbcType=INTEGER},
+      </if>
+      <if test="rental != null" >
+        rental = #{rental,jdbcType=DECIMAL},
+      </if>
+      <if test="rentPayType != null" >
+        rent_pay_type = #{rentPayType,jdbcType=VARCHAR},
+      </if>
+      <if test="rentPayTerm != null" >
+        rent_pay_term = #{rentPayTerm,jdbcType=INTEGER},
+      </if>
+      <if test="deposit != null" >
+        deposit = #{deposit,jdbcType=DECIMAL},
+      </if>
+      <if test="lastRentPayDate != null" >
+        last_rent_pay_date = #{lastRentPayDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="propertyFee != null" >
+        property_fee = #{propertyFee,jdbcType=DECIMAL},
+      </if>
+      <if test="propertyPayTerm != null" >
+        property_pay_term = #{propertyPayTerm,jdbcType=INTEGER},
+      </if>
+      <if test="lastPropPayDate != null" >
+        last_prop_pay_date = #{lastPropPayDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="waterRate != null" >
+        water_rate = #{waterRate,jdbcType=DECIMAL},
+      </if>
+      <if test="waterRateTerm != null" >
+        water_rate_term = #{waterRateTerm,jdbcType=INTEGER},
+      </if>
+      <if test="lastWaterPayDate != null" >
+        last_water_pay_date = #{lastWaterPayDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="powerRate != null" >
+        power_rate = #{powerRate,jdbcType=DECIMAL},
+      </if>
+      <if test="powerRateTerm != null" >
+        power_rate_term = #{powerRateTerm,jdbcType=INTEGER},
+      </if>
+      <if test="lastPowerPayDate != null" >
+        last_power_pay_date = #{lastPowerPayDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gasRate != null" >
+        gas_rate = #{gasRate,jdbcType=DECIMAL},
+      </if>
+      <if test="gasRateTerm != null" >
+        gas_rate_term = #{gasRateTerm,jdbcType=INTEGER},
+      </if>
+      <if test="lastGasPayDate != null" >
+        last_gas_pay_date = #{lastGasPayDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="letCount != null" >
+        let_count = #{letCount,jdbcType=INTEGER},
+      </if>
+      <if test="otherFacilities != null" >
+        other_facilities = #{otherFacilities,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null" >
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=INTEGER},
+      </if>
+    </set>
+    where hp_id = #{hpId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hysoft.houselease.dto.HousePlaceDto" >
+    update house_places
+    set hp_code = #{hpCode,jdbcType=VARCHAR},
+      hb_id = #{hbId,jdbcType=INTEGER},
+      ho_id = #{hoId,jdbcType=INTEGER},
+      free_term = #{freeTerm,jdbcType=INTEGER},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      end_date = #{endDate,jdbcType=TIMESTAMP},
+      building_number = #{buildingNumber,jdbcType=VARCHAR},
+      unit_number = #{unitNumber,jdbcType=VARCHAR},
+      floor_number = #{floorNumber,jdbcType=VARCHAR},
+      room_number = #{roomNumber,jdbcType=VARCHAR},
+      room_count = #{roomCount,jdbcType=INTEGER},
+      place_type = #{placeType,jdbcType=VARCHAR},
+      has_heating = #{hasHeating,jdbcType=BIT},
+      has_gas = #{hasGas,jdbcType=BIT},
+      deco_level = #{decoLevel,jdbcType=VARCHAR},
+      has_internet = #{hasInternet,jdbcType=BIT},
+      has_beds = #{hasBeds,jdbcType=INTEGER},
+      has_hotwater = #{hasHotwater,jdbcType=BIT},
+      has_tvs = #{hasTvs,jdbcType=INTEGER},
+      has_airs = #{hasAirs,jdbcType=INTEGER},
+      has_washers = #{hasWashers,jdbcType=INTEGER},
+      has_fridges = #{hasFridges,jdbcType=INTEGER},
+      proportion = #{proportion,jdbcType=INTEGER},
+      rental = #{rental,jdbcType=DECIMAL},
+      rent_pay_type = #{rentPayType,jdbcType=VARCHAR},
+      rent_pay_term = #{rentPayTerm,jdbcType=INTEGER},
+      deposit = #{deposit,jdbcType=DECIMAL},
+      last_rent_pay_date = #{lastRentPayDate,jdbcType=TIMESTAMP},
+      property_fee = #{propertyFee,jdbcType=DECIMAL},
+      property_pay_term = #{propertyPayTerm,jdbcType=INTEGER},
+      last_prop_pay_date = #{lastPropPayDate,jdbcType=TIMESTAMP},
+      water_rate = #{waterRate,jdbcType=DECIMAL},
+      water_rate_term = #{waterRateTerm,jdbcType=INTEGER},
+      last_water_pay_date = #{lastWaterPayDate,jdbcType=TIMESTAMP},
+      power_rate = #{powerRate,jdbcType=DECIMAL},
+      power_rate_term = #{powerRateTerm,jdbcType=INTEGER},
+      last_power_pay_date = #{lastPowerPayDate,jdbcType=TIMESTAMP},
+      gas_rate = #{gasRate,jdbcType=DECIMAL},
+      gas_rate_term = #{gasRateTerm,jdbcType=INTEGER},
+      last_gas_pay_date = #{lastGasPayDate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      let_count = #{letCount,jdbcType=INTEGER},
+      other_facilities = #{otherFacilities,jdbcType=VARCHAR},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      created_by = #{createdBy,jdbcType=INTEGER}
+    where hp_id = #{hpId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateQuitStatus" parameterType="com.hysoft.houselease.dto.HousePlaceDto">
+      update house_places set status = 'quit'
+       where hp_id = #{hpId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateLetCount" parameterType="com.hysoft.houselease.dto.HousePlaceDto">
+    update house_places set let_count = let_count + #{letCount,jdbcType=INTEGER},
+                            hire_room_area = concat(IFNULL(hire_room_area,''),',',#{hireRoomArea,jdbcType=VARCHAR})
+    where hp_id = #{hpId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateLetCountQuit" parameterType="com.hysoft.houselease.dto.HousePlaceDto">
+    update house_places set let_count = let_count - #{letCount,jdbcType=INTEGER},
+    hire_room_area = replace(hire_room_area,#{hireRoomArea,jdbcType=VARCHAR},'')
+    where hp_id = #{hpId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hysoft.houselease.dao.HiredInfoDao" >
+  <resultMap id="BaseResultMap" type="com.hysoft.houselease.dto.HouseHiredInfoDto" >
+    <id column="hhi_id" property="hhiId" jdbcType="INTEGER" />
+    <result column="hp_id" property="hpId" jdbcType="INTEGER" />
+    <result column="hu_id" property="huId" jdbcType="INTEGER" />
+    <result column="hire_type" property="hireType" jdbcType="VARCHAR" />
+    <result column="hire_count" property="hireCount" jdbcType="INTEGER" />
+    <result column="hire_room_type" property="hireRoomType" jdbcType="VARCHAR" />
+    <result column="hire_room_area" property="hireRoomArea" jdbcType="VARCHAR" />
+    <result column="start_date" property="startDate" jdbcType="DATE" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="rent" property="rent" jdbcType="DECIMAL" />
+    <result column="pay_type" property="payType" jdbcType="VARCHAR" />
+    <result column="pay_term" property="payTerm" jdbcType="INTEGER" />
+    <result column="deposit" property="deposit" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="created_date" property="createdDate" jdbcType="DATE"/>
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="prewarn_days" property="prewarnDays" jdbcType="DECIMAL" />
+    <result column="start_warn_date" property="startWarnDate" jdbcType="DATE" />
+    <result column="next_pay_date" property="nextPayDate" jdbcType="DATE" />
+    <result column="place" property="place" jdbcType="VARCHAR" />
+    <association property="houseUserDto" javaType="com.hysoft.houselease.dto.HouseUserDto">
+         <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+         <result property="userTel" column="user_tel" jdbcType="VARCHAR"/>
+         <result property="identNumber" column="ident_number" jdbcType="VARCHAR"/>
+    </association>
+
+    <association property="houseBuildingDto" javaType="com.hysoft.houselease.dto.HouseBuildingDto">
+      <result property="buildingName" column="building_name" jdbcType="VARCHAR"/>
+      <result property="buildingAddress" column="building_address" jdbcType="VARCHAR"/>
+    </association>
+
+    <association property="housePlaceDto" javaType="com.hysoft.houselease.dto.HousePlaceDto">
+      <result property="buildingNumber" column="building_number" jdbcType="VARCHAR"/>
+      <result property="unitNumber" column="unit_number" jdbcType="VARCHAR"/>
+      <result property="floorNumber" column="floor_number" jdbcType="VARCHAR"/>
+      <result property="roomNumber" column="room_number" jdbcType="VARCHAR"/>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    hhi_id, hp_id, hu_id, hire_type, hire_count, hire_room_type, hire_room_area, start_date,
+    end_date, rent, pay_type, pay_term, deposit, status, created_date, created_by, memo,
+    prewarn_days,start_warn_date,next_pay_date
+  </sql>
+
+  <sql id="info_columns">
+    hhi.hhi_id, hhi.hp_id, hhi.hu_id, hhi.hire_type, hhi.hire_count, hhi.hire_room_type, hhi.hire_room_area, hhi.start_date,
+    hhi.end_date, hhi.rent, hhi.pay_type, hhi.pay_term, hhi.deposit, hhi.status, hhi.created_date, hhi.created_by, hhi.memo,
+    hhi.prewarn_days,hhi.start_warn_date,hhi.next_pay_date,
+    hu.user_name,hu.user_tel,hu.ident_number,
+    hb.building_name,hb.building_address,
+    hp.building_number,hp.unit_number,hp.floor_number,hp.room_number,
+    hp.place place
+  </sql>
+
+  <select id="getHiredInfoList" resultMap="BaseResultMap" parameterType="com.hysoft.houselease.dto.HouseHiredInfoDto">
+      select
+      <include refid="Base_Column_List" />
+      from house_hired_info
+    limit #{pageIndex},#{pageSize}
+  </select>
+
+  <select id="getToPayHiredInfoList" resultMap="BaseResultMap" parameterType="com.hysoft.houselease.dto.HouseHiredInfoDto">
+    select
+    <include refid="info_columns" />
+     from house_hired_info hhi,
+          house_places hp,
+          house_buildings hb,
+          house_users hu
+    where hhi.hu_id = hu.ho_id
+      and hhi.hp_id =  hp.hp_id
+      and hp.hb_id = hb.hb_id
+
+    <if test="status != null">
+      and hhi.status = #{status,jdbcType=VARCHAR}
+    </if>
+
+    <if test="hireType != null" >
+      and hhi.hire_type = #{hireType,jdbcType=VARCHAR}
+     </if>
+     <if test='showAll != "Y"'>
+       and now() >= hhi.start_warn_date
+     </if>
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from house_hired_info
+    where hhi_id = #{hhiId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from house_hired_info
+    where hhi_id = #{hhiId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hysoft.houselease.dto.HouseHiredInfoDto" >
+    insert into house_hired_info (hhi_id, hp_id, hu_id,
+      hire_type, hire_count, hire_room_type,
+      hire_room_area, start_date, end_date,
+      rent, pay_type, pay_term,
+      deposit, status, created_date,
+      created_by, memo,prewarn_days,start_warn_date,next_pay_date)
+    values (#{hhiId,jdbcType=INTEGER}, #{hpId,jdbcType=INTEGER}, #{huId,jdbcType=INTEGER},
+      #{hireType,jdbcType=VARCHAR}, #{hireCount,jdbcType=INTEGER}, #{hireRoomType,jdbcType=VARCHAR},
+      #{hireRoomArea,jdbcType=INTEGER}, #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP},
+      #{rent,jdbcType=DECIMAL}, #{payType,jdbcType=VARCHAR}, #{payTerm,jdbcType=INTEGER},
+      #{deposit,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, #{createdDate,jdbcType=TIMESTAMP},
+      #{createdBy,jdbcType=INTEGER}, #{memo,jdbcType=VARCHAR},#{prewarnDays,jdbcType=INTEGER},
+      date_add(#{nextPayDate,jdbcType=TIMESTAMP},INTERVAL - #{prewarnDays,jdbcType=INTEGER} day),#{nextPayDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hysoft.houselease.dto.HouseHiredInfoDto" >
+    insert into house_hired_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="hhiId != null" >
+        hhi_id,
+      </if>
+      <if test="hpId != null" >
+        hp_id,
+      </if>
+      <if test="huId != null" >
+        hu_id,
+      </if>
+      <if test="hireType != null" >
+        hire_type,
+      </if>
+      <if test="hireCount != null" >
+        hire_count,
+      </if>
+      <if test="hireRoomType != null" >
+        hire_room_type,
+      </if>
+      <if test="hireRoomArea != null" >
+        hire_room_area,
+      </if>
+      <if test="startDate != null" >
+        start_date,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="rent != null" >
+        rent,
+      </if>
+      <if test="payType != null" >
+        pay_type,
+      </if>
+      <if test="payTerm != null" >
+        pay_term,
+      </if>
+      <if test="deposit != null" >
+        deposit,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createdDate != null" >
+        created_date,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="hhiId != null" >
+        #{hhiId,jdbcType=INTEGER},
+      </if>
+      <if test="hpId != null" >
+        #{hpId,jdbcType=INTEGER},
+      </if>
+      <if test="htId != null" >
+        #{huId,jdbcType=INTEGER},
+      </if>
+      <if test="hireType != null" >
+        #{hireType,jdbcType=VARCHAR},
+      </if>
+      <if test="hireCount != null" >
+        #{hireCount,jdbcType=INTEGER},
+      </if>
+      <if test="hireRoomType != null" >
+        #{hireRoomType,jdbcType=VARCHAR},
+      </if>
+      <if test="hireRoomArea != null" >
+        #{hireRoomArea,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rent != null" >
+        #{rent,jdbcType=DECIMAL},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="payTerm != null" >
+        #{payTerm,jdbcType=INTEGER},
+      </if>
+      <if test="deposit != null" >
+        #{deposit,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null" >
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hysoft.houselease.dto.HouseHiredInfoDto">
+    update house_hired_info
+    <set>
+      <if test="hpId != null" >
+        hp_id = #{hpId,jdbcType=INTEGER},
+      </if>
+      <if test="htId != null" >
+        hu_id = #{huId,jdbcType=INTEGER},
+      </if>
+      <if test="hireType != null" >
+        hire_type = #{hireType,jdbcType=VARCHAR},
+      </if>
+      <if test="hireCount != null" >
+        hire_count = #{hireCount,jdbcType=INTEGER},
+      </if>
+      <if test="hireRoomType != null" >
+        hire_room_type = #{hireRoomType,jdbcType=VARCHAR},
+      </if>
+      <if test="hireRoomArea != null" >
+        hire_room_area = #{hireRoomArea,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null" >
+        start_date = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rent != null" >
+        rent = #{rent,jdbcType=DECIMAL},
+      </if>
+      <if test="payType != null" >
+        pay_type = #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="payTerm != null" >
+        pay_term = #{payTerm,jdbcType=INTEGER},
+      </if>
+      <if test="deposit != null" >
+        deposit = #{deposit,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null" >
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="prewarnDays != null" >
+        prewarn_days = #{prewarnDays,jdbcType=VARCHAR},
+      </if>
+      <if test="startWarnDate != null" >
+        start_warn_date = #{startWarnDate,jdbcType=VARCHAR},
+      </if>
+      <if test="nextPayDate != null" >
+        next_pay_date = #{nextPayDate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where hhi_id = #{hhiId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hysoft.houselease.dto.HouseHiredInfoDto">
+    update house_hired_info
+    set hp_id = #{hpId,jdbcType=INTEGER},
+      hu_id = #{huId,jdbcType=INTEGER},
+      hire_type = #{hireType,jdbcType=VARCHAR},
+      hire_count = #{hireCount,jdbcType=INTEGER},
+      hire_room_type = #{hireRoomType,jdbcType=VARCHAR},
+      hire_room_area = #{hireRoomArea,jdbcType=INTEGER},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      end_date = #{endDate,jdbcType=TIMESTAMP},
+      rent = #{rent,jdbcType=DECIMAL},
+      pay_type = #{payType,jdbcType=VARCHAR},
+      pay_term = #{payTerm,jdbcType=INTEGER},
+      deposit = #{deposit,jdbcType=DECIMAL},
+      status = #{status,jdbcType=VARCHAR},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      created_by = #{createdBy,jdbcType=INTEGER},
+      memo = #{memo,jdbcType=VARCHAR},
+      prewarn_days = #{prewarnDays,jdbcType=INTEGER},
+      start_warn_date = #{startWarnDate,jdbcType=TIMESTAMP},
+      next_pay_date = #{nextPayDate,jdbcType=TIMESTAMP}
+    where hhi_id = #{hhiId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateNextPayDate" parameterType="com.hysoft.houselease.dto.HouseHiredInfoDto">
+      UPDATE house_hired_info hhi set hhi.next_pay_date = date_add(next_pay_date,INTERVAL pay_term MONTH),
+                                      start_warn_date = date_add(next_pay_date,interval -prewarn_days day)
+       where hhi_id = #{hhiId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateQuitStatus" parameterType="com.hysoft.houselease.dto.HouseHiredInfoDto">
+      update  house_hired_info hhi set hhi.status = 'quit'
+       where  hhi_id = #{hhiId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hysoft.houselease.dao.BuildingDao">
+  <resultMap id="infoResult" type="com.hysoft.houselease.dto.HouseBuildingDto">
+    <result column="belong_prov" property="belongProv" jdbcType="DECIMAL" javaType="java.lang.Integer"/>
+    <result column="belong_city" property="belongCity" jdbcType="DECIMAL" javaType="java.lang.Integer"/>
+    <result column="belong_district" property="belongDistrict" jdbcType="DECIMAL" javaType="java.lang.Integer"/>
+    <result column="building_address" property="buildingAddress" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    <result column="building_name" property="buildingName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    <result column="hb_id" property="hbId" jdbcType="DECIMAL" javaType="java.lang.Integer"/>
+  </resultMap>
+
+  <sql id="columns">
+    belong_prov,belong_city,belong_district,building_address,building_name,hb_id
+  </sql>
+
+  <insert id="insertBuilding" parameterType="com.hysoft.houselease.dto.HouseBuildingDto" useGeneratedKeys="true"
+      keyColumn="hb_id" keyProperty="hbId">
+       insert into house_buildings(belong_prov,belong_city,belong_district,building_address,building_name)
+       VALUES (#{belongProv},#{belongCity},#{belongDistrict},#{buildingAddress},#{buildingName})
+  </insert>
+
+  <update id="updateBuildingById" parameterType="com.hysoft.houselease.dto.HouseBuildingDto">
+      UPDATE house_buildings hb
+         set hb.belong_prov = #{belongProv},belong_city = #{belongCity},belong_district = #{belongDistrict},
+             hb.building_address = #{buildingAddress},building_name = #{buildingName}
+      where hb_id = #{hbId}
+  </update>
+
+  <select id="getBuildingList" parameterType="com.hysoft.houselease.dto.HouseBuildingDto" resultMap="infoResult">
+    select <include refid="columns" />
+    from house_buildings
+     limit #{pageIndex},#{pageSize}
+  </select>
+
+  <select id="queryBuilding" parameterType="java.lang.String" resultMap="infoResult">
+     select <include refid="columns" />
+    from house_buildings u
+   where u.building_address + u.building_name like concat('%',#{searchStr},'%');
+  </select>
+</mapper>

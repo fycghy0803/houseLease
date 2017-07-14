@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>房屋租凭系统</title>
+  <link href="css/bootstrap3.css?version=1.0.1" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+       <div>
+         <a class="navbar-brand" href="index.html">房屋中介系统</a>
+       </div>
+
+       <div class="navbar-right" role="navigation">
+         <ul class="nav navbar-nav">
+           <li><a href="lease/addPlace.html" target="_addPlace">增加房屋</a></li>
+         </ul>
+       </div>
+  </div>
+
+  <div class="panel-default">
+    <ul class="nav nav-tabs" id="myTab">
+      <li class="active"><a href="#toGetPanel" data-toggle="tab">到期收租<span id="toGet" class="badge">0</span></a></li>
+      <li><a href="#toPayPanel" data-toggle="tab">至期付租<span id="toPay" class="badge">0</span></a></li>
+      <li><a href="#toLeasePanel" data-toggle="tab">可出租房屋<span id="toLease" class="badge">0</span></a></li>
+      <li><a href="#" onclick="refresh();">刷新</a></li>
+    </ul>
+
+  <div id="myTabContent" class="tab-content">
+
+  <div class="tab-pane fade in active" id="toGetPanel">
+
+    <form class="form-horizontal">
+      <div class="form-group panel-body">
+        <label for="getSearch" class="col-sm-2 control-label">搜索:</label>
+        <div class="col-sm-6">
+          <input type="email" class="form-control" id="getSearch">
+        </div>
+        <div class="col-sm-2"><input type="checkbox" onclick="showOrNoAll(g_custom_type,this.checked)" id="getCheck"><label for="getCheck">显示所有</label></div>
+      </div>
+    </form>
+
+    <div class="panel-heading">
+         <table class="table table-hover table-bordered" id="getTable">
+           <thead>
+           <tr class="bg-success text-center">
+             <th>编号</th>
+             <th>租户</th>
+             <th>联系电话</th>
+             <th>小区</th>
+             <th>户号</th>
+             <th>承租房间号</th>
+             <th>合同开始日期</th>
+             <th>合同结束日期</th>
+             <th>下次收租日期</th>
+             <th>收租方式</th>
+             <th>押金</th>
+             <th>应收租金</th>
+             <th>当前状态</th>
+             <th>操作</th>
+           </tr>
+           </thead>
+           <tbody id="getBody">
+
+           </tbody>
+         </table>
+       </div>
+  </div>
+
+  <div class="tab-pane fade" id="toPayPanel">
+    <form class="form-horizontal">
+      <div class="form-group panel-body">
+        <label for="paySearch" class="col-sm-2 control-label">搜索:</label>
+        <div class="col-sm-6">
+          <input type="email" class="form-control" id="paySearch">
+        </div>
+        <div class="col-sm-2"><input type="checkbox" onclick="showOrNoAll(g_owner_type,this.checked)" id="payCheck"><label for="payCheck">显示所有</label></div>
+      </div>
+    </form>
+
+    <div class="panel-heading">
+      <table class="table table-hover table-bordered" id="payTable">
+        <thead>
+        <tr class="bg-success">
+          <th>编号</th>
+          <th>业主</th>
+          <th>业主电话</th>
+          <th>小区名称</th>
+          <th>详细位置</th>
+          <th>房间号</th>
+          <th>合同开始日期</th>
+          <th>合同结束日期</th>
+          <th>下次支付日期</th>
+          <th>支付方式</th>
+          <th>需支付金额</th>
+          <th>当前状态</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="payBody">
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="tab-pane fade" id="toLeasePanel">
+    <form class="form-horizontal">
+      <div class="form-group panel-body">
+        <label for="leaseSearch" class="col-sm-2 control-label">搜索:</label>
+        <div class="col-sm-6">
+          <input type="email" class="form-control" id="leaseSearch">
+        </div>
+        <div class="col-sm-2"><input type="checkbox" onclick="showOrNoAllPlace(this.checked)" id="leaseCheck"><label for="leaseCheck">显示所有</label></div>
+      </div>
+    </form>
+
+    <div class="panel-heading">
+      <table class="table table-hover table-bordered" id="leaseTable">
+        <thead>
+        <tr class="bg-success">
+          <th>业主姓名</th>
+          <th>业主电话</th>
+          <th>地址</th>
+          <th>小区名称</th>
+          <th>详细地址</th>
+          <th>房屋面积</th>
+          <th>房屋结构</th>
+          <th>租金</th>
+          <th>合同结束日期</th>
+          <th>房间数</th>
+          <th>已出租数</th>
+          <th>已出租房间号</th>
+          <th>房屋配套</th>
+          <th>当前状态</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="toLeaseBody">
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+  </div>
+</body>
+
+<table style="display:none">
+  <tbody id="toGetTemplete">
+  <tr>
+    <td>${hhiId}</td>
+    <td>${houseUserDto.userName}</td>
+    <td>${houseUserDto.userTel}</td>
+    <td>${houseBuildingDto.buildingName}</td>
+    <td>${place}</td>
+    <td>${housePlaceDto.roomNumber}</td>
+    <td>${startDate}</td>
+    <td>${endDate}</td>
+    <td class="text-danger">${nextPayDate}</td>
+    <td>${payType}</td>
+    <td>${deposit}</td>
+    <td class="text-danger">${rent}</td>
+    <td class="status">${status}</td>
+    <td>
+      <button class="btn-xs btn-success" onclick="updateNextPayDate(this,'${hhiId}',g_custom_type)">确认收租</button>
+      <button class="btn-xs btn-error" onclick="updateQuitStatus(this,'${hhiId}',g_custom_type)">确认退租</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<table style="display:none">
+  <tbody id="toPayTemplete">
+  <tr>
+    <td>${hhiId}</td>
+    <td>${houseUserDto.userName}</td>
+    <td>${houseUserDto.userTel}</td>
+    <td>${houseBuildingDto.buildingName}</td>
+    <td>${place}</td>
+    <td>${housePlaceDto.roomNumber}</td>
+    <td>${startDate}</td>
+    <td>${endDate}</td>
+    <td class="text-danger">${nextPayDate}</td>
+    <td>${payType}</td>
+    <td class="text-danger">${rent}</td>
+    <Td class="status">${status}</Td>
+    <td>
+      <button class="btn-xs btn-success" onclick="updateNextPayDate(this,'${hhiId}',g_owner_type)">付租</button>
+      <button class="btn-xs btn-error" onclick="updateQuitStatus(this,'${hhiId}',g_owner_type,'${hpId}')">退租</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<table style="display:none">
+  <tbody id="toLeaseTemplete">
+  <tr>
+
+    <td>${houseUserDto.userName}</td>
+    <td>${houseUserDto.userTel}</td>
+    <td>${houseBuildingDto.buildingAddress}</td>
+    <td>${houseBuildingDto.buildingName}</td>
+    <td>${place}</td>
+    <td>${areas}</td>
+    <td>${placeType}</td>
+    <td>${rent}</td>
+    <td class="text-danger">${endDate}</td>
+    <td class="text-danger">${roomCount}</td>
+    <td class="text-danger">${letCount}</td>
+    <td class="text-danger">${hireRoomArea}</td>
+    <td>${keyWords}</td>
+    <td class="status">${status}</td>
+    <td>
+      <a href="lease/addLease.html?hpId=${hpId}" target="_addLease" class="btn-link btn-success">出租</a>
+      <br/>
+      <a href="#" class="btn-link btn-error" onclick="updatePlaceQuitStatus(this,'${hpId}')">退租</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<script src="js/jquery.min.1.12.4.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/public.js?version=1.0.3"></script>
+<script src="js/index.js?version=1.0.2"></script>
+</html>
